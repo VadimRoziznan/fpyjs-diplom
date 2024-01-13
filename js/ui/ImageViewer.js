@@ -3,8 +3,12 @@
  * Используется для взаимодействием блоком изображений
  * */
 class ImageViewer {
-  constructor( element ) {
 
+  static imagesWrapper
+
+  constructor( element ) {
+    this.element = element;
+    //this.registerEvents()
   }
 
   /**
@@ -17,7 +21,33 @@ class ImageViewer {
    * 5. Клик по кнопке "Отправить на диск" открывает всплывающее окно для загрузки файлов
    */
   registerEvents(){
+    const buttonSelectAll = document.querySelector('button.select-all')
+    const buttonSend = document.querySelector('button.send')
+    const images = self.imagesWrapper.querySelectorAll('img')
+    const preview = document.querySelector('img.image')
 
+    images.forEach(function(image){
+      image.addEventListener('click', () => {
+        if (image.classList.contains('selected')) {
+          image.classList.remove('selected')
+        } else {
+        images.forEach(function(image){
+          buttonSend.classList.add('disabled')
+        })
+        image.classList.add('selected')
+
+        buttonSelectAll.textContent = 'Выбрать всё'
+        buttonSelectAll.classList.add('selectAll')
+        buttonSend.classList.remove('disabled')
+      }
+    })
+
+      image.addEventListener('dblclick', event =>{
+        preview.src = image.src
+      })
+    })
+
+    this.checkButtonText()
   }
 
   /**
@@ -31,14 +61,79 @@ class ImageViewer {
    * Отрисовывает изображения.
   */
   drawImages(images) {
+    
+    if (images.length > 0) {
+      const buttonSelectAll = document.querySelector('button.select-all')
+      buttonSelectAll.classList.remove('disabled')
+    } else {
+      return
+    }
 
+    const imagesWrapper = document.querySelector('.images-wrapper')
+    const rowDiv = imagesWrapper.querySelector('.row:first-child')
+
+    images.forEach((image) => {
+      const newDiw = document.createElement('div')
+      newDiw.classList.add('four', 'wide', 'column', 'ui', 'medium', 'image-wrapper')
+
+      const newImg = document.createElement('img')
+      newImg.src = image.url;
+      newImg.setAttribute('name', image.name)
+      newImg.setAttribute('date', image.date)
+      
+
+      newDiw.appendChild(newImg)
+      rowDiv.appendChild(newDiw)
+    });
+
+    self.imagesWrapper = rowDiv
+    this.registerEvents()
+    
   }
 
   /**
    * Контроллирует кнопки выделения всех изображений и отправки изображений на диск
    */
   checkButtonText(){
+    const buttonSelectAll = document.querySelector('button.select-all')
+    const buttonSend = document.querySelector('button.send')
+    const images = self.imagesWrapper.querySelectorAll('img')
 
+    buttonSelectAll.classList.add('selectAll')
+
+    buttonSelectAll.onclick = () => {
+      if (buttonSelectAll.classList.contains('selectAll')) {
+        buttonSelectAll.textContent = 'Снять выделение'
+        buttonSelectAll.classList.remove('selectAll')
+
+        buttonSend.classList.remove('disabled')
+
+        images.forEach(function(image){
+          image.classList.add('selected')
+        })
+      } else {
+        buttonSelectAll.textContent = 'Выбрать всё'
+        buttonSelectAll.classList.add('selectAll')
+
+        buttonSend.classList.add('disabled')
+
+        images.forEach(function(image){
+          image.classList.remove('selected')
+        })
+      }
+    }
+    
+    buttonSend.onclick = () => {
+      const selectImages = new Array
+      images.forEach(function(image) {
+        if (image.classList.contains('selected')) {
+          selectImages.push(image)
+          //selectImages.push(image.currentSrc)
+        }
+      })
+
+      App.modals.fileUploader.open()
+      App.modals.fileUploader.showImages(selectImages)
+    }
   }
-
 }
