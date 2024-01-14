@@ -22,12 +22,12 @@ const createRequest = (options = {}) => {
 
       if (options.path && options.url) {
         const folder = createFolder(options.path)
-        //const pathToLoad = getDownloadParh(options.path)
         
         if (folder) {
           uploadFile(options.path, options.url)
         }
-        
+      } else if (options['command'] === 'getFiles') {
+        return getFiles()
       }
 
       function createFolder(folderName) {
@@ -43,33 +43,11 @@ const createRequest = (options = {}) => {
           return false
         }
       }
-
-      /*function getDownloadPath(folderName) {
-        const url = `https://cloud-api.yandex.net/v1/disk/resources/upload?path=${encodeURIComponent(folderName)}`
-        const method = 'GET';
-        xhr.open(method, url, false);
-
-        const token = Yandex.getToken();
-        xhr.setRequestHeader('Authorization', token)
-        xhr.setRequestHeader('Accept', 'application/json')
-        xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.send();
-
-        if ([200, 201, 409].includes(xhr.status)) {
-          console.log(xhr)
-          return xhr.responseURL
-        } else {
-          alert(`getDownloadParh', ${xhr.statusText}, ${xhr.status}`)
-          return NaN
-        }
-      }*/
       
       function uploadFile(folderName, pathToFile) {
         const url = `https://cloud-api.yandex.net/v1/disk/resources/upload?path=${encodeURIComponent(folderName + '/' + options.name + '.jpg')}&url=${encodeURIComponent(pathToFile)}`
         const method = 'POST';
         xhr.open(method, url, false);
-
-       // const params = 'url=' + encodeURIComponent(pathToFile)
         
         const token = Yandex.getToken();
         xhr.setRequestHeader('Authorization', token)
@@ -78,10 +56,20 @@ const createRequest = (options = {}) => {
         xhr.send();
       }
 
+      function getFiles() {
+        const url = `https://cloud-api.yandex.net/v1/disk/resources/files`
+        const method = 'GET';
+        xhr.open(method, url, false);
+        
+        const token = Yandex.getToken();
+        xhr.setRequestHeader('Authorization', token)
+        xhr.setRequestHeader('Accept', 'application/json')
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send();
+        return xhr.response
+      }
+
       
-
-
-
       function send(xhr) {
         const token = Yandex.getToken();
         xhr.setRequestHeader('Authorization', token)

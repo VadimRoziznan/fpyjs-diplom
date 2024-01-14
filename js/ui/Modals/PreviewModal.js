@@ -30,7 +30,7 @@ class PreviewModal extends BaseModal{
    * Отрисовывает изображения в блоке всплывающего окна
    */
   showImages(data) {
-    console.log('получил колбек)))')
+    console.log('получил колбек)))', data)
   }
 
   /**

@@ -52,9 +52,8 @@ class ImageViewer {
       const callback = (data) => {
         App.getModal('filePreviewer').showImages(data)
       } 
-      const allImages = Yandex.getUploadedFiles(callback)
       
-      
+      Yandex.getUploadedFiles(callback)
     
     })
 

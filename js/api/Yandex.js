@@ -42,7 +42,24 @@ class Yandex {
    * Метод получения всех загруженных файлов в облаке
    */
   static getUploadedFiles(callback){
-    callback('dathjjhhja')
+    const request = createRequest({'command': 'getFiles'})
+    const items = JSON.parse(request).items
+    const data = new Array
+
+    items.forEach(element => {
+      const path = element.path;
+      const name = element.name;
+      const date = element.created;
+
+      data.push({
+        'image': {
+          'path': path,
+          'name': name,
+          'date': date,
+        }
+      })
+    });
+    callback(data)
   }
 
   /**
