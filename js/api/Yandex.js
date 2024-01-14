@@ -11,9 +11,16 @@ class Yandex {
    * Метод формирования и сохранения токена для Yandex API
    */
   static getToken(){
-    const yandexToken = '';
-    return yandexToken
-  }
+
+      let yandexToken = localStorage.getItem('YA_TOKEN');
+  
+      if (!yandexToken) {
+        yandexToken = prompt('Введите токен от Яндекс Диска');
+        localStorage.setItem('YA_TOKEN', yandexToken);
+      }
+  
+      return yandexToken;
+    }
 
   /**
    * Метод загрузки файла в облако
@@ -35,7 +42,7 @@ class Yandex {
    * Метод получения всех загруженных файлов в облаке
    */
   static getUploadedFiles(callback){
-
+    callback('dathjjhhja')
   }
 
   /**

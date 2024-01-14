@@ -44,7 +44,7 @@ const createRequest = (options = {}) => {
         }
       }
 
-      function getDownloadParh(folderName) {
+      /*function getDownloadPath(folderName) {
         const url = `https://cloud-api.yandex.net/v1/disk/resources/upload?path=${encodeURIComponent(folderName)}`
         const method = 'GET';
         xhr.open(method, url, false);
@@ -62,11 +62,9 @@ const createRequest = (options = {}) => {
           alert(`getDownloadParh', ${xhr.statusText}, ${xhr.status}`)
           return NaN
         }
-      }
+      }*/
       
       function uploadFile(folderName, pathToFile) {
-        console.log(encodeURIComponent(folderName + '/' + 'photo2.jpg'))
-        console.log(encodeURIComponent(pathToFile))
         const url = `https://cloud-api.yandex.net/v1/disk/resources/upload?path=${encodeURIComponent(folderName + '/' + options.name + '.jpg')}&url=${encodeURIComponent(pathToFile)}`
         const method = 'POST';
         xhr.open(method, url, false);

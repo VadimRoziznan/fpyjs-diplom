@@ -6,11 +6,21 @@
  * */
 class VK {
 
-  static ACCESS_TOKEN = '';
+  static ACCESS_TOKEN = this.getToken();
   static lastCallback
   /*static lastCallback = (result) => {
     alert(result.response[0].first_name)
   };*/
+
+  static getToken() {
+    let vkToken = localStorage.getItem('VK_TOKEN');
+    if (!vkToken) {
+      vkToken = prompt('Введите токен VK');
+      localStorage.setItem('VK_TOKEN', vkToken);
+    }
+
+    return vkToken
+  }
 
   /**
    * Получает изображения

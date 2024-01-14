@@ -52,14 +52,10 @@ class FileUploaderModal extends BaseModal{
         const imageContainer = button.parentNode.closest('.image-preview-container')
         
         this.sendImage(imageContainer)
-        /*
-        if (!inputText) {
-          alert('Нам нужно знать, куда сохранить файл. Пожалуйста, укажите путь.')
-        } else {
-          this.sendImage(imageContainer)
-        }*/
       }
     }
+
+
   }
 
   /**
@@ -100,7 +96,11 @@ class FileUploaderModal extends BaseModal{
    * Отправляет все изображения в облако
    */
   sendAllImages() {
-    console.log('sendAllImages()')
+    const imageContainer = document.querySelectorAll('.image-preview-container');
+    imageContainer.forEach(image => {
+      this.sendImage(image);
+    })
+    
   }
 
   /**

@@ -17,6 +17,7 @@ class SearchBlock {
    * только клик по кнопке "Заменить" перед отрисовкой очищает все отрисованные ранее изображения
    */
   registerEvents(){
+    //const buttonShowUpLoadedFiles = document.querySelector('button.show-uploaded-files');
     const input = this.searchBlock.querySelector('input');
     const buttonReplace = this.searchBlock.querySelector('.replace')
     const buttonAdd = this.searchBlock.querySelector('.add')
@@ -35,9 +36,10 @@ class SearchBlock {
 
     buttonAdd.addEventListener('click', () => {
       this.getImage(input);
-     // console.log(this.getImage(input))
-      
+  
     })
+
+    ///
   }
 
   getImage(input){

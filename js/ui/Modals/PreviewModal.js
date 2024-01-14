@@ -2,9 +2,11 @@
  * Класс PreviewModal
  * Используется как обозреватель загруженный файлов в облако
  */
-class PreviewModal {
+class PreviewModal extends BaseModal{
   constructor( element ) {
-
+    super(element);
+    this.registerEvents()
+    
   }
 
   /**
@@ -15,6 +17,11 @@ class PreviewModal {
    * Скачивает изображение, если клик был на кнопке download
    */
   registerEvents() {
+    const buttonClose = this.elementDOM.querySelector('.x');
+
+    buttonClose.onclick = () => {
+      this.close()
+    }
 
   }
 
@@ -23,7 +30,7 @@ class PreviewModal {
    * Отрисовывает изображения в блоке всплывающего окна
    */
   showImages(data) {
-
+    console.log('получил колбек)))')
   }
 
   /**
@@ -38,6 +45,30 @@ class PreviewModal {
    * Возвращает разметку из изображения, таблицы с описанием данных изображения и кнопок контроллеров (удаления и скачивания)
    */
   getImageInfo(item) {
+    const imagePreviewContainer = document.createElement('div');
+    imagePreviewContainer.classList.add("image-preview-container");
 
+    imagePreviewContainer.innerHTML = `
+      <img src='XXX' />
+      <table class="ui celled table">
+      <thead>
+        <tr><th>Имя</th><th>Создано</th><th>Размер</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>AAA</td><td>BBB</td><td>CCCКб</td></tr>
+      </tbody>
+      </table>
+      <div class="buttons-wrapper">
+        <button class="ui labeled icon red basic button delete" data-path='PPP'>
+          Удалить
+          <i class="trash icon"></i>
+        </button>
+        <button class="ui labeled icon violet basic button download" data-file='FFF'>
+          Скачать
+          <i class="download icon"></i>
+        </button>
+      </div>
+    `
+    return imagePreviewContainer
   }
 }

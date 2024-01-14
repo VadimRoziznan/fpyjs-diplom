@@ -8,7 +8,6 @@ class ImageViewer {
 
   constructor( element ) {
     this.element = element;
-    //this.registerEvents()
   }
 
   /**
@@ -23,28 +22,40 @@ class ImageViewer {
   registerEvents(){
     const buttonSelectAll = document.querySelector('button.select-all')
     const buttonSend = document.querySelector('button.send')
-    const images = self.imagesWrapper.querySelectorAll('img')
+    const buttonShowUpLoadedFiles = document.querySelector('.show-uploaded-files');
+    const images = document.querySelectorAll('img')
     const preview = document.querySelector('img.image')
-
+    
     images.forEach(function(image){
       image.addEventListener('click', () => {
         if (image.classList.contains('selected')) {
           image.classList.remove('selected')
         } else {
-        images.forEach(function(image){
-          buttonSend.classList.add('disabled')
-        })
-        image.classList.add('selected')
-
-        buttonSelectAll.textContent = 'Выбрать всё'
-        buttonSelectAll.classList.add('selectAll')
-        buttonSend.classList.remove('disabled')
-      }
-    })
-
+          images.forEach(function(image){
+            buttonSend.classList.add('disabled')
+          })
+          image.classList.add('selected')
+        
+          buttonSelectAll.textContent = 'Выбрать всё'
+          buttonSelectAll.classList.add('selectAll')
+          buttonSend.classList.remove('disabled')
+        }
+      })
       image.addEventListener('dblclick', event =>{
         preview.src = image.src
       })
+    })
+
+    buttonShowUpLoadedFiles.addEventListener('click', () => {
+      App.getModal('filePreviewer').open()
+
+      const callback = (data) => {
+        App.getModal('filePreviewer').showImages(data)
+      } 
+      const allImages = Yandex.getUploadedFiles(callback)
+      
+      
+    
     })
 
     this.checkButtonText()
@@ -97,7 +108,7 @@ class ImageViewer {
   checkButtonText(){
     const buttonSelectAll = document.querySelector('button.select-all')
     const buttonSend = document.querySelector('button.send')
-    const images = self.imagesWrapper.querySelectorAll('img')
+    const images = document.querySelectorAll('img')
 
     buttonSelectAll.classList.add('selectAll')
 
