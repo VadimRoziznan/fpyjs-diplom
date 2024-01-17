@@ -4,10 +4,11 @@
  * */
 class ImageViewer {
 
-  static imagesWrapper
+  //static imagesWrapper
 
   constructor( element ) {
     this.element = element;
+    this.registerEvents()
   }
 
   /**
@@ -22,10 +23,72 @@ class ImageViewer {
   registerEvents(){
     const buttonSelectAll = document.querySelector('button.select-all')
     const buttonSend = document.querySelector('button.send')
-    const buttonShowUpLoadedFiles = document.querySelector('.show-uploaded-files');
-    const images = document.querySelectorAll('img')
+    const buttonShowUpLoadedFiles = document.querySelector('button.show-uploaded-files');
+    const images = document.querySelectorAll('.row')[2].children
     const preview = document.querySelector('img.image')
+
     
+
+    const click = 0
+
+    const row = document.querySelectorAll('.row')[1]
+
+    const images2 = document.querySelectorAll('img')
+
+    //console.log(images)
+    
+/*
+    images2.forEach(function(image) {
+      image.addEventListener('dbclick', (event) => {
+        console.log('sgsw')
+      })
+    })*/
+
+    row.addEventListener('click', (event) => {
+      //console.log(event.target)
+
+     
+     
+
+      if (event.target.parentNode.classList.contains('image-wrapper')) {
+
+        preview.src = event.target.src
+        
+
+        if (!event.target.classList.contains('selected')) {
+          event.target.classList.add('selected')
+          buttonSend.classList.remove('disabled')
+        } else {
+          event.target.classList.remove('selected')
+          
+          var selected = false
+
+          for (let index = 0; index < images.length; index++) {
+            const element = images[index];
+            //console.log(element.children[0])
+            
+            if (element.children[0].classList.contains('selected')) {
+              selected = true
+            }
+
+            
+            
+          }
+
+          if (!selected) {
+            buttonSend.classList.add('disabled')
+            
+          }
+          
+          
+        }
+
+       
+
+      }
+      
+    })
+/*
     images.forEach(function(image){
       image.addEventListener('click', () => {
         if (image.classList.contains('selected')) {
@@ -45,6 +108,8 @@ class ImageViewer {
         preview.src = image.src
       })
     })
+*/
+
 
     buttonShowUpLoadedFiles.addEventListener('click', () => {
       App.getModal('filePreviewer').open()
@@ -54,8 +119,10 @@ class ImageViewer {
       } 
       
       Yandex.getUploadedFiles(callback)
+      
     
     })
+    
 
     this.checkButtonText()
   }
@@ -96,8 +163,8 @@ class ImageViewer {
       rowDiv.appendChild(newDiw)
     });
 
-    self.imagesWrapper = rowDiv
-    this.registerEvents()
+    //self.imagesWrapper = rowDiv
+    //this.registerEvents()
     
   }
 
@@ -107,7 +174,11 @@ class ImageViewer {
   checkButtonText(){
     const buttonSelectAll = document.querySelector('button.select-all')
     const buttonSend = document.querySelector('button.send')
-    const images = document.querySelectorAll('img')
+    const images1 = document.querySelectorAll('img')
+
+    const images = document.querySelectorAll('.row')[2].children
+    //const t = row.children
+    
 
     buttonSelectAll.classList.add('selectAll')
 
@@ -118,24 +189,34 @@ class ImageViewer {
 
         buttonSend.classList.remove('disabled')
 
-        images.forEach(function(image){
+        for (let index = 0; index < images.length; index++) {
+          const element = images[index];
+          element.children[0].classList.add('selected')
+        }
+
+        /*images.forEach(function(image){
           image.classList.add('selected')
-        })
+        })*/
       } else {
         buttonSelectAll.textContent = 'Выбрать всё'
         buttonSelectAll.classList.add('selectAll')
 
         buttonSend.classList.add('disabled')
 
-        images.forEach(function(image){
+        for (let index = 0; index < images.length; index++) {
+          const element = images[index];
+          element.children[0].classList.remove('selected')
+        }
+
+        /*images.forEach(function(image){
           image.classList.remove('selected')
-        })
+        })*/
       }
     }
     
     buttonSend.onclick = () => {
       const selectImages = new Array
-      images.forEach(function(image) {
+      images1.forEach(function(image) {
         if (image.classList.contains('selected')) {
           selectImages.push(image)
           //selectImages.push(image.currentSrc)

@@ -8,9 +8,6 @@ class VK {
 
   static ACCESS_TOKEN = this.getToken();
   static lastCallback
-  /*static lastCallback = (result) => {
-    alert(result.response[0].first_name)
-  };*/
 
   static getToken() {
     let vkToken = localStorage.getItem('VK_TOKEN');

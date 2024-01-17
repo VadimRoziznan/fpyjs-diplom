@@ -71,6 +71,7 @@ class FileUploaderModal extends BaseModal{
       
       parent.appendChild(html)
       
+      
     }
    
   }
