@@ -8,7 +8,15 @@ class ImageViewer {
 
   constructor( element ) {
     this.element = element;
+
+    this.imageBlock = document.querySelector('.images-list').querySelector('.grid');
+    this.previewImage = document.querySelector('.image');
+
+    
+
     this.registerEvents()
+
+    
   }
 
   /**
@@ -21,43 +29,115 @@ class ImageViewer {
    * 5. Клик по кнопке "Отправить на диск" открывает всплывающее окно для загрузки файлов
    */
   registerEvents(){
+    
+    
+
     const buttonSelectAll = document.querySelector('button.select-all')
     const buttonSend = document.querySelector('button.send')
     const buttonShowUpLoadedFiles = document.querySelector('button.show-uploaded-files');
     const images = document.querySelectorAll('.row')[2].children
     const preview = document.querySelector('img.image')
 
+    const imageWrapper = this.element.querySelectorAll('.image-wrapper')
+
     
 
     const click = 0
+    const row2 = this.element
 
-    const row = document.querySelectorAll('.row')[1]
+    const row = document.querySelectorAll('.row')[2]
 
     const images2 = document.querySelectorAll('img')
 
-    //console.log(images)
+    const images4 = this.element.querySelectorAll('img')
+
     
+
+    var clickTimer = null; 
+    function handleClick(event) { 
+      if (clickTimer === null) { 
+        // Запускаем таймер после первого клика 
+        clickTimer = setTimeout(function() { 
+          // Время истекло, это был одиночный клик 
+
+          
+          
+
+          if (event.target.parentNode.classList.contains('image-wrapper')) {
+
+        
+        
+            if (!event.target.classList.contains('selected')) {
+              event.target.classList.add('selected')
+              buttonSend.classList.remove('disabled')
+              
+            } else {
+              event.target.classList.remove('selected')
+              
+              var selected = false
+    
+              for (let index = 0; index < images.length; index++) {
+                const element = images[index];
+    
+                if (element.children[0].classList.contains('selected')) {
+                  selected = true
+                }
+              }
+    
+              if (!selected) {
+                buttonSend.classList.add('disabled')
+                
+              }
+            }
+          }
+
+
+
+
+
+
+          console.log("Одиночный клик"); 
+          
+          // Очищаем таймер 
+          clickTimer = null; 
+        }, 250); 
+        // Здесь задержка времени (в миллисекундах) между первым и вторым кликом 
+      } else { 
+        // Двойной клик 
+
+
+        if (event.target.tagName === 'IMG') {
+          preview.src = event.target.src 
+        }
+        //preview.src = event.target.src
+
+        console.log("Двойной клик"); 
+        // Очищаем таймер 
+        clearTimeout(clickTimer); 
+        clickTimer = null; 
+      } 
+    } 
+    // Добавляем слушатель события клика 
+    row.addEventListener("click", handleClick);
+
+
+
+
+
+
 /*
-    images2.forEach(function(image) {
-      image.addEventListener('dbclick', (event) => {
-        console.log('sgsw')
-      })
-    })*/
-
     row.addEventListener('click', (event) => {
-      //console.log(event.target)
 
-     
      
 
       if (event.target.parentNode.classList.contains('image-wrapper')) {
 
-        preview.src = event.target.src
         
-
+        
         if (!event.target.classList.contains('selected')) {
           event.target.classList.add('selected')
           buttonSend.classList.remove('disabled')
+          
         } else {
           event.target.classList.remove('selected')
           
@@ -65,48 +145,18 @@ class ImageViewer {
 
           for (let index = 0; index < images.length; index++) {
             const element = images[index];
-            //console.log(element.children[0])
-            
+
             if (element.children[0].classList.contains('selected')) {
               selected = true
             }
-
-            
-            
           }
 
           if (!selected) {
             buttonSend.classList.add('disabled')
             
           }
-          
-          
         }
-
-       
-
       }
-      
-    })
-/*
-    images.forEach(function(image){
-      image.addEventListener('click', () => {
-        if (image.classList.contains('selected')) {
-          image.classList.remove('selected')
-        } else {
-          images.forEach(function(image){
-            buttonSend.classList.add('disabled')
-          })
-          image.classList.add('selected')
-        
-          buttonSelectAll.textContent = 'Выбрать всё'
-          buttonSelectAll.classList.add('selectAll')
-          buttonSend.classList.remove('disabled')
-        }
-      })
-      image.addEventListener('dblclick', event =>{
-        preview.src = image.src
-      })
     })
 */
 
@@ -163,9 +213,7 @@ class ImageViewer {
       rowDiv.appendChild(newDiw)
     });
 
-    //self.imagesWrapper = rowDiv
-    //this.registerEvents()
-    
+
   }
 
   /**
@@ -174,10 +222,12 @@ class ImageViewer {
   checkButtonText(){
     const buttonSelectAll = document.querySelector('button.select-all')
     const buttonSend = document.querySelector('button.send')
-    const images1 = document.querySelectorAll('img')
+    //const images1 = document.querySelectorAll('img')
 
-    const images = document.querySelectorAll('.row')[2].children
+    const images = this.element.querySelectorAll('img')
+    
     //const t = row.children
+    
     
 
     buttonSelectAll.classList.add('selectAll')
@@ -215,8 +265,9 @@ class ImageViewer {
     }
     
     buttonSend.onclick = () => {
+      const images = this.element.querySelectorAll('img')
       const selectImages = new Array
-      images1.forEach(function(image) {
+      images.forEach(function(image) {
         if (image.classList.contains('selected')) {
           selectImages.push(image)
           //selectImages.push(image.currentSrc)

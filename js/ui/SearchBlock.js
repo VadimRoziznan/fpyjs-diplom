@@ -50,6 +50,7 @@ class SearchBlock {
       function callback(response) {
 
         App.imageViewer.drawImages(response)
+        
 
         return response
       }
