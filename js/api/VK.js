@@ -78,14 +78,5 @@ class VK {
     self.lastCallback = () => {}
     return NewArray
  
-
-
-  
-
-    
-  
-    
-
-    
   }
 }

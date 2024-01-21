@@ -57,8 +57,6 @@ class Yandex {
       const date = element.created;
       const size = (parseInt(element.size) / 1024).toFixed(1);
 
-      
-
       data.push({
         'path': path,
         'file': file,

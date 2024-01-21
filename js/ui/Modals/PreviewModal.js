@@ -20,8 +20,6 @@ class PreviewModal extends BaseModal{
     const content = this.elementDOM.querySelector('.content');
     const buttonClose = this.elementDOM.querySelector('.x');
     const loadingIcon = content.querySelector('i.loading')
-    //const buttonDownload = content.querySelector
-    
 
     buttonClose.onclick = () => {
       const imagePreviewContainer = content.querySelectorAll('.image-preview-container');
@@ -43,20 +41,15 @@ class PreviewModal extends BaseModal{
 
     content.addEventListener('click', (event) => {
       if (event.target.classList.contains('delete') || event.target.classList.contains('trash')) {
-
         const callback = (data) => {
-          //вызвать удаление блока с кортинкой если ответ null
           if (!data) {
             event.target.parentNode.parentNode.remove()
-            //console.log(event.target.parentNode.parentNode)
           }
         } 
         Yandex.removeFile(event.target.dataset.path, callback)
       }
     })
-
   }
-
 
   /**
    * Отрисовывает изображения в блоке всплывающего окна
@@ -64,7 +57,6 @@ class PreviewModal extends BaseModal{
   showImages(data) {
     const content = this.elementDOM.querySelector('.content')
     const loadingIcon = content.querySelector('i.loading')
-    //console.log(data)
     let count = 0
 
     data.forEach(element => {
@@ -72,10 +64,7 @@ class PreviewModal extends BaseModal{
       count = count + 1
       content.appendChild(imageInfo)
     });
-    console.log(count)
-    
     loadingIcon.classList = 'loading visible transition'
-    
   }
 
   /**

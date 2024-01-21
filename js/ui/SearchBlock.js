@@ -51,7 +51,6 @@ class SearchBlock {
 
         App.imageViewer.drawImages(response)
         
-
         return response
       }
 
@@ -70,5 +69,4 @@ class SearchBlock {
       return false;
     }
   }
-
 }

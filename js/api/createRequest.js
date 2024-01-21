@@ -20,8 +20,6 @@ const createRequest = (options = {}) => {
         
       }
 
-
-
       function createFolder(folderName) {
         const url = `https://cloud-api.yandex.net/v1/disk/resources?path=${encodeURIComponent(folderName)}`
         const method = 'PUT';
